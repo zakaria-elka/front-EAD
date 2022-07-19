@@ -1,0 +1,203 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Tableau de Bord', 'Chargé d\'assistance']" icon="trello"
+            class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats [data]="dashboardStats"></sa-stats>
+    </div>
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <sa-widget color="blue" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:        usage: <sa-widget id="wid-id-0" [editbutton]="false">        [colorbutton]="false"        [editbutton]="false"        [togglebutton]="false"        [deletebutton]="false"        [fullscreenbutton]="false"        [custombutton]="false"        [collapsed]="true"        [sortable]="false"    -->
+                    <header>
+                        <h2>Recherche de missions</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div class="input-group input-group-lg hidden-mobile">
+                                <div class="input-group-btn"> <button type="button"
+                                        class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-expanded="false"> {{searchMode}} <span class="caret"></span> </button>
+                                    <ul class="dropdown-menu">
+                                        <li [ngClass]="{active: searchMode==='Toutes les missions'}"> <a
+                                                href="javascript:void(0)"
+                                                (click)="setSearchMode('Toutes les missions')"> <i
+                                                    *ngIf="searchMode === 'Toutes les missions'"
+                                                    class="fa fa-check"></i> Toutes les missions </a> </li>
+                                        <li class="divider"></li>
+                                        <li [ngClass]="{active: searchMode==='En Cours'}"> <a href="javascript:void(0)"
+                                                (click)="setSearchMode('En Cours')"> <i
+                                                    *ngIf="searchMode === 'En Cours'" class="fa fa-check"></i> En cours
+                                            </a> </li>
+                                        <li [ngClass]="{active: searchMode==='Non Affectées'}"> <a
+                                                href="javascript:void(0)" (click)="setSearchMode('Non Affectées')"> <i
+                                                    *ngIf="searchMode === 'Non Affectées'" class="fa fa-check"></i> Non
+                                                Affectées </a> </li>
+                                        <li [ngClass]="{active: searchMode==='Archivées'}"> <a href="javascript:void(0)"
+                                                (click)="setSearchMode('Archivées')"> <i
+                                                    *ngIf="searchMode === 'Archivées'" class="fa fa-check"></i>
+                                                Archivées </a> </li>
+                                    </ul>
+                                </div> <input class="form-control input-lg" [(ngModel)]="searchStr"
+                                    (keyup)="onKey($event)" type="text" placeholder="Rechercher une mission..."
+                                    id="search-project">
+                                <div class="input-group-btn"> <button type="submit" class="btn btn-default"
+                                        (click)="searchMissions()"> &nbsp;&nbsp;&nbsp;<i
+                                            class="fa fa-fw fa-search fa-lg"></i>&nbsp;&nbsp;&nbsp; </button> </div>
+                            </div> <br /><br />
+                            <ag-grid-angular *ngIf="missionsSearchResult" style="width: 100%; height: 400px;"
+                                class="ag-theme-balham" [enableSorting]="true" [enableFilter]="true"
+                                [rowData]="missionsSearchResult" [columnDefs]="columnDefs" [rowSelection]="rowSelection"
+                                [enableColResize]="true" [pagination]="true" [debug]="true" [localeText]="localeText"
+                                (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)"
+                                (rowDoubleClicked)="onRowDoubleClicked($event)"> </ag-grid-angular>
+                            <div *ngIf="missionsSearchResult" class="row info-list-action-container"> <a href="#"
+                                    (click)="clearSearch($event)"
+                                    class="btn btn-sm btn-info pull-right">Reinitialiser</a> </div>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget> <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget color="darken" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:        usage: <sa-widget id="wid-id-0" [editbutton]="false">        [colorbutton]="false"        [editbutton]="false"        [togglebutton]="false"        [deletebutton]="false"        [fullscreenbutton]="false"        [custombutton]="false"        [collapsed]="true"        [sortable]="false"    -->
+                    <header>
+                        <h2>Missions en Cours</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body"> <img *ngIf="!missionsEnCours"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <div *ngIf="missionsEnCours?.length == 0">Aucun résultat à afficher</div>
+                            <ng-container *ngIf="missionsEnCours?.length > 0">
+                                <div class="row table-bordered mission-row"
+                                    *ngFor="let item of missionsEnCours | paginate: { id: 'missionsEnCoursPagination',                                                      itemsPerPage: 2,                                                      currentPage:  missionEnCoursPageNumber }"
+                                    (click)="showDetailMission(item.MissionId)">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>NOM DE L'ASSURE(E)
+                                            :</strong> {{item.FirstName}} {{item.LastName}}</div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>CONTRAT N° :</strong>
+                                        {{item.PolicyNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>N° DOSSIER ASSISTANCE
+                                            :</strong> {{item.ClaimNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"
+                                        style="color:#DC9B01; text-align:right;"><strong>TEMPS RESTANT :</strong>
+                                        {{item.RemainingTime}} </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="progress progress-sm progress-striped active"
+                                            style="margin-top:15px; margin-bottom:5px; border-radius:5px;">
+                                            <div class="progress-bar bg-color-darken" role="progressbar"
+                                                [style.width]="item.ProgressPercentage+'%'"
+                                                style=" background-color:#DC9B01 !important;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <pagination-controls id="missionsEnCoursPagination"
+                                    (pageChange)="pageChangedMissionsEnCours($event)" maxSize="9" directionLinks="true"
+                                    autoHide="true" responsive="true" previousLabel="Précédent" nextLabel="Suivant"
+                                    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                    screenReaderCurrentLabel="Vous êtes sur la page"> </pagination-controls>
+                            </ng-container>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+                <sa-widget color="red" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:        usage: <sa-widget id="wid-id-0" [editbutton]="false">        [colorbutton]="false"        [editbutton]="false"        [togglebutton]="false"        [deletebutton]="false"        [fullscreenbutton]="false"        [custombutton]="false"        [collapsed]="true"        [sortable]="false"    -->
+                    <header>
+                        <h2>Missions non affectées</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body"> <img *ngIf="!missionsNonAffectee"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <div *ngIf="missionsNonAffectee?.length ==   0">Aucun résultat à afficher</div>
+                            <ng-container *ngIf="missionsNonAffectee?.length > 0">
+                                <div class="row table-bordered mission-row"
+                                    *ngFor="let item of missionsNonAffectee | paginate: { id: 'missionsNonAffectePagination',                                                      itemsPerPage: 2,                                                      currentPage:  missionNonAffectePageNumber }"
+                                    (click)="showDetailMission(item.MissionId)">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>NOM DE L'ASSURE(E)
+                                            :</strong> {{item.FirstName}} {{item.LastName}}</div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>CONTRAT N° :</strong>
+                                        {{item.PolicyNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>N° DOSSIER ASSISTANCE
+                                            :</strong> {{item.ClaimNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"
+                                        style="color:#DC9B01; text-align:right;"><strong>TEMPS RESTANT :</strong>
+                                        {{item.RemainingTime}} </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="progress progress-sm progress-striped active"
+                                            style="margin-top:15px; margin-bottom:5px; border-radius:5px;">
+                                            <div class="progress-bar bg-color-redLight" role="progressbar"
+                                                [style.width]="item.ProgressPercentage+'%'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <pagination-controls id="missionsNonAffectePagination"
+                                    (pageChange)="pageChangedMissionsNonAffecte($event)" maxSize="9"
+                                    directionLinks="true" autoHide="true" responsive="true" previousLabel="Précédent"
+                                    nextLabel="Suivant" screenReaderPaginationLabel="Pagination"
+                                    screenReaderPageLabel="page" screenReaderCurrentLabel="Vous êtes sur la page">
+                                </pagination-controls>
+                            </ng-container>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+                <sa-widget color="red" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:        usage: <sa-widget id="wid-id-0" [editbutton]="false">        [colorbutton]="false"        [editbutton]="false"        [togglebutton]="false"        [deletebutton]="false"        [fullscreenbutton]="false"        [custombutton]="false"        [collapsed]="true"        [sortable]="false"    -->
+                    <header>
+                        <h2>Missions échues et non-synchronisées</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body"> <img *ngIf="!missionsEchus"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <div *ngIf="missionsEchus?.length ==   0">Aucun résultat à afficher</div>
+                            <ng-container *ngIf="missionsEchus?.length > 0">
+                                <div class="row table-bordered mission-row"
+                                    *ngFor="let item of missionsEchus | paginate: { id: 'missionsEchuPagination',                                                      itemsPerPage: 2,                                                      currentPage:  missionEchuPageNumber}"
+                                    (click)="showDetailMission(item.MissionId)">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>NOM DE L'ASSURE(E)
+                                            :</strong> {{item.FirstName}} {{item.LastName}}</div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>CONTRAT N° :</strong>
+                                        {{item.PolicyNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>N° DOSSIER ASSISTANCE
+                                            :</strong> {{item.ClaimNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"
+                                        style="color:#DC9B01; text-align:right;"><strong>TEMPS RESTANT :</strong>
+                                        {{item.RemainingTime}} </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <div class="progress progress-sm progress-striped active"
+                                            style="margin-top:15px; margin-bottom:5px; border-radius:5px;">
+                                            <div class="progress-bar bg-color-redLight" role="progressbar"
+                                                [style.width]="item.ProgressPercentage+'%'"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <pagination-controls id="missionsEchuPagination"
+                                    (pageChange)="pageChangedMissionsEchu($event)" maxSize="9" directionLinks="true"
+                                    autoHide="true" responsive="true" previousLabel="Précédent" nextLabel="Suivant"
+                                    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                    screenReaderCurrentLabel="Vous êtes sur la page"> </pagination-controls>
+                            </ng-container>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+                <sa-widget color="blue" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:        usage: <sa-widget id="wid-id-0" [editbutton]="false">        [colorbutton]="false"        [editbutton]="false"        [togglebutton]="false"        [deletebutton]="false"        [fullscreenbutton]="false"        [custombutton]="false"        [collapsed]="true"        [sortable]="false"    -->
+                    <header>
+                        <h2>Statistiques SLA</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <sa-morris-graph *ngIf="dashboardStats" [goals]="chartSLA" [data]="dashboardStats.graphData"
+                                style="height:600px !important;" type="line"
+                                [options]="{xkey: 'Date',ykeys: ['TotalMissionValue','AverageAssignmentValue','AverageCheckinValue','AverageCloseValue','AverageSyncValue'],labels: ['Temps Total','Temps d\'affectation','Temps d\'approche','Temps de clôture','Temps de synchronisation'],                              parseTime: false,                               goalStrokeWidth: 3,                               lineColors:['#288FB4','#61BBB6','#1A2634','#FF4362','#FFFD8C'],                               goalLineColors:['#288FB4','#61BBB6','#1A2634','#FF4362','#FFFD8C']                                             }">
+                            </sa-morris-graph>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+            </article>
+        </div>
+    </sa-widgets-grid>
+</div>

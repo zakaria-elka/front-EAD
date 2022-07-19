@@ -1,0 +1,50 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Missions', 'Missions Annulées']" icon="fa-refresh"
+            class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+        <sa-stats></sa-stats>
+    </div>
+    <!--<div class="row">      <div class="col-sm-12">          <div class="well">              <h1>SmartAdmin Angular 2 <i>blank</i></h1>              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur beatae corporis dignissimos                  doloremque eaque eum modi, quia reprehenderit unde voluptatem.</p>          </div>      </div>  </div>-->
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget color="red" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:              usage: <sa-widget id="wid-id-0" [editbutton]="false">              [colorbutton]="false"              [editbutton]="false"              [togglebutton]="false"              [deletebutton]="false"              [fullscreenbutton]="false"              [custombutton]="false"              [collapsed]="true"              [sortable]="false"          -->
+                    <header>
+                        <h2>Missions Annulées</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body"> <img *ngIf="!missionsArchives"
+                                src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                            <div *ngIf="missionsArchives?.length == 0">Aucun résultat à afficher</div>
+                            <ng-container *ngIf="missionsArchives?.length > 0">
+                                <div class="row table-bordered mission-row"
+                                    *ngFor="let item of missionsArchives | paginate: { id: 'missionsEnCoursPagination',                                                      itemsPerPage: 10,                                                      currentPage:  missionEnCoursPageNumber}"
+                                    style="padding-bottom: 15px;" (click)="showDetailMission(item.MissionId)">
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>NOM DE L'ASSURE(E)
+                                            :</strong> {{item.FirstName}} {{item.LastName}}</div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>CONTRAT N° :</strong>
+                                        {{item.PolicyNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"><strong>N° DOSSIER ASSISTANCE
+                                            :</strong> {{item.ClaimNumber}} </div>
+                                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3"
+                                        style="color:#DC9B01; text-align:right;"><strong>SYNCHRONISEE :</strong>
+                                        {{item.DateSynced}} </div>
+                                </div>
+                                <pagination-controls id="missionsEnCoursPagination"
+                                    (pageChange)="pageChangedMissionsEnCours($event)" maxSize="9" directionLinks="true"
+                                    autoHide="true" responsive="true" previousLabel="Précédent" nextLabel="Suivant"
+                                    screenReaderPaginationLabel="Pagination" screenReaderPageLabel="page"
+                                    screenReaderCurrentLabel="Vous êtes sur la page"> </pagination-controls>
+                            </ng-container>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+            </article>
+        </div>
+    </sa-widgets-grid>
+</div>

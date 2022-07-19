@@ -1,0 +1,49 @@
+<div id="main" role="main" class="animated fadeInDown" style="background-color:#F6F6F6">
+    <div id="content" class="container">
+        <div class="row ">
+            <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4 center-block" style="float:none"> <img
+                    src="../../../assets/img/logomai.png" class="center-block"
+                    style="float:none; margin-bottom: 15px;" />
+                <div class="well no-padding">
+                    <form class="smart-form client-form" #f="ngForm">
+                        <header
+                            style="    background-color: #0E5993;    font-size: 14px;    padding: 5px 5px 4px 4px;    color: #fff;">
+                            <i class="fa fa-sign-in"></i> Authentification </header>
+                        <fieldset>
+                            <section> <label class="label"
+                                    style="font-size: 12px;    font-weight: bold;    color: #0E5993;    margin-bottom: 0px;">Nom
+                                    d'utilisateur</label> <label class="input"> <i class="icon-append fa fa-user"></i>
+                                    <input type="email" name="email" [(ngModel)]="model.username" #username="ngModel"
+                                        data-smart-validate-input="" data-required="" data-email=""
+                                        data-message-required="Please enter your email address"
+                                        data-message-email="Please enter a VALID email address"> <b
+                                        class="tooltip tooltip-top-right"> <i class="fa fa-user txt-color-teal"></i>
+                                        Veuillez saisir votre nom d'utilisateur </b> </label> </section>
+                            <section> <label class="label"
+                                    style="font-size: 12px;    font-weight: bold;    color: #0E5993;    margin-bottom: 0px;">Mot
+                                    de passe</label> <label class="input"> <i class="icon-append fa fa-lock"></i> <input
+                                        type="password" name="password" [(ngModel)]="model.password" #password="ngModel"
+                                        data-smart-validate-input="" data-required="" data-minlength="3"
+                                        data-maxnlength="20" data-message="Please enter your email password"> <b
+                                        class="tooltip tooltip-top-right"> <i
+                                            class="fa fa-lock txt-color-teal"></i>Veuillez saisir votre mot de passe
+                                    </b> </label> </section>
+                            <section> <label class="checkbox"> <input type="checkbox" name="remember" checked> <i></i>Se
+                                    souvenir de moi </label> </section>
+                        </fieldset>
+                        <footer>
+                            <div class="center-block" style="text-align:center"> <img *ngIf="loading"
+                                    src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                <button (click)="login($event)" [disabled]="loading" class="btn btn-primary "
+                                    style="margin-bottom: 20px;    min-width: 200px;"> S'authentifier </button>
+                                <div *ngIf="error" class="alert alert-danger">{{error}}</div> <br /> <i>Mot de passe
+                                    oublié?</i><br /> <a style="text-decoration:underline;"
+                                    href="/#/auth/forgot-password">Générez un nouveau mot de passe</a>
+                            </div>
+                        </footer>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

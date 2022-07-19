@@ -1,0 +1,20 @@
+<div class="col-xs-12 col-sm-5 col-md-5 col-lg-8" saSparklineContainer>
+    <ul id="sparks" *ngIf="data" class="">
+        <li class="sparks-info">
+            <h5> MISSIONS ECHUES <span class="txt-color-redLight"><i
+                        class="fa fa-exclamation"></i>&nbsp;{{data.MissionsEchusCount}}</span></h5>
+        </li>
+        <li *ngIf="data" class="sparks-info">
+            <h5> MISSIONS NON AFFECTEES <span class="txt-color-redLight"><i
+                        class="fa fa-exclamation"></i>&nbsp;{{data.MissionsNonAffecteesCount}}</span></h5>
+        </li>
+        <li class="sparks-info">
+            <h5> MISSIONS EN COURS <span class="txt-color-orangeDark"><i
+                        class="fa fa-refresh"></i>&nbsp;{{data.MissionsEnCoursCount}}</span></h5>
+        </li>
+        <li class="sparks-info">
+            <h5> MISSIONS ARCHIVEES <span class="txt-color-greenLight"><i
+                        class="fa fa-check"></i>&nbsp;{{data.MissionsArchiveCount}}</span></h5>
+        </li>
+    </ul>
+</div>

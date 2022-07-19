@@ -1,0 +1,67 @@
+<aside id="left-panel">
+    <!-- User info -->
+    <!--<sa-login-info></sa-login-info>-->
+    <!-- end user info -->
+    <nav>
+        <!-- NOTE: Notice the gaps after each icon usage <i></i>..    Please note that these links work a bit different than    traditional href="" links. See documentation for details.    -->
+        <ul saSmartMenu>
+            <!--<li routerLinkActive="active">    <a routerLink="/home" title="Home">      <i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">{{'Home' | i18n}}</span>    </a>  </li>-->
+            <li> <a title="Dashboard"> <i class="fa fa-lg fa-fw fa-dashboard"></i> <span
+                        class="menu-item-parent">{{'Tableaux de Bord' | i18n}}</span> </a>
+                <ul>
+                    <li *ngIf="authService.isUserAdministrator() || authService.isUserChargeAssistance()"
+                        routerLinkActive="active"> <a routerLink="/home/assistance">{{'Dashboard Assistance' |
+                            i18n}}</a> </li>
+                    <li *ngIf="authService.isUserAdministrator() || authService.isUserManager()"> <a
+                            routerLink="/home/manager">{{'Dashboard Manager' | i18n}}</a> </li>
+                    <li> <a *ngIf="authService.isUserAdministrator() || authService.isUserAgentAssurance()"
+                            routerLink="/home/asscompagnie">{{'Dashboard Compagnie' | i18n}}</a> </li>
+                    <li> <a *ngIf="authService.isUserAdministrator() || authService.isUserPrestataire()"
+                            routerLink="/home/prestataire">{{'Dashboard Prestataire' | i18n}}</a> </li>
+                    
+                </ul>
+            </li>
+            
+            <li *ngIf="authService.isUserAdministrator() || authService.isUserChargeAssistance()"> <a
+                    routerLink="/missions/nouvelle" title="Home"> <i class="fa fa-lg fa-fw fa-plus-circle"></i> <span
+                        class="menu-item-parent">{{'Nouvelle Mission' | i18n}}</span> </a> </li>
+            <li *ngIf="!authService.isUserAgentAssurance()"> <a routerLink="/missions/encours" title="Home"> <i
+                        class="fa fa-lg fa-fw fa-refresh"></i> <span class="menu-item-parent">{{'Missions en Cours' |
+                        i18n}}</span> </a> </li>
+            <li> <a *ngIf="!authService.isUserAgentAssurance()" routerLink="/missions/archives" title="Home"> <i
+                        class="fa fa-lg fa-fw fa-check"></i> <span class="menu-item-parent">{{'Missions Archivées' |
+                        i18n}}</span> </a> </li>
+            <li> <a *ngIf="!authService.isUserAgentAssurance()" routerLink="/missions/cancelled" title="Home"> <i
+                        class="fa fa-lg fa-fw fa-trash"></i> <span class="menu-item-parent">{{'Missions Annulées' |
+                        i18n}}</span> </a> </li>
+            <li
+                *ngIf="authService.isUserAdministrator() || authService.isUserManager() || authService.isUserChargeAssistance()">
+                <a title="Reporting"> <i class="fa fa-lg fa-fw fa-bar-chart"></i> <span
+                        class="menu-item-parent">{{'Reporting' | i18n}}</span> </a>
+                <ul>   
+                    <li> <a routerLink="/reports/prestatemps">{{'Prestataires / Temps de réponse' | i18n}}</a> </li>
+                    <li> <a routerLink="/reports/agentstemps">{{'Agents / Temps de réponse' | i18n}}</a> </li>
+                    <li> <a routerLink="/reporting/reportingmission"> {{'Reporting Missions' | i18n}}</a></li>
+                </ul>
+            </li>
+            <li *ngIf="authService.isUserAdministrator() || authService.isUserPrestataire()"> <a title="Administration">
+                    <i class="fa fa-lg fa-fw fa-sliders"></i> <span class="menu-item-parent">{{'Paramétrage' |
+                        i18n}}</span> </a>
+                <ul>
+                    <li *ngIf="authService.isUserAdministrator()"> <a routerLink="/admin/prestataire">{{'Gestion des
+                            prestataires' | i18n}}</a> </li>
+                    <li> <a routerLink="/admin/utilisateurs">{{'Gestion des utilisateurs' | i18n}}</a> </li>
+                    <li *ngIf="authService.isUserAdministrator()"> <a routerLink="/admin/steassurance">{{'Gestion des
+                            sociétés d\'assurance' | i18n}}</a> </li>
+                    <li *ngIf="authService.isUserAdministrator()"> <a routerLink="/admin/documents">{{'Gestion des types
+                            de documents' | i18n}}</a> </li>
+                    <li *ngIf="authService.isUserAdministrator()"> <a routerLink="/admin/missiontype">{{'Gestion des
+                            types de missions' | i18n}}</a> </li>
+                    <li *ngIf="authService.isUserAdministrator()"> <a routerLink="/admin/parametrage">{{'Gestion des
+                            SLA' | i18n}}</a> </li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    <!--<sa-minify-menu></sa-minify-menu>-->
+</aside>

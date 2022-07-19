@@ -1,0 +1,92 @@
+<div id="content">
+    <div class="row">
+        <sa-big-breadcrumbs [items]="['Missions', 'Affecter']" icon="briefcase"
+            class="col-xs-12 col-sm-7 col-md-7 col-lg-4"></sa-big-breadcrumbs>
+    </div>
+    <sa-widgets-grid>
+        <!-- row -->
+        <div class="row">
+            <!-- NEW WIDGET START -->
+            <article class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <!-- Widget ID (each widget will need unique ID)-->
+                <sa-widget color="blue" [colorbutton]="false" [deletebutton]="false" [editbutton]="false">
+                    <!-- widget options:              usage: <sa-widget id="wid-id-0" [editbutton]="false">              [colorbutton]="false"              [editbutton]="false"              [togglebutton]="false"              [deletebutton]="false"              [fullscreenbutton]="false"              [custombutton]="false"              [collapsed]="true"              [sortable]="false"          -->
+                    <header>
+                        <h2>Affecter Mission</h2>
+                    </header> <!-- widget div-->
+                    <div>
+                        <!-- widget content -->
+                        <div class="widget-body">
+                            <div *ngIf="mission" class="row pull-right margin-bottom-5 padding-10"> <span
+                                    *ngIf="mission.DateCreated" class="label label-default"
+                                    style="margin-right: 5px;">CREATION : {{mission.DateCreated | date:'yyyy-MM-dd à
+                                    HH:mm'}} </span> </div>
+                            <div class="clearfix" style="border-bottom: solid 1px #eee"></div>
+                            <ul class="nav nav-tabs pull-left in" id="myTab">
+                                <li class="active"> <a data-toggle="tab" style="color: rgb(51, 51, 51) !important;"
+                                        href="#s1"> <i class="fa fa-clock-o"></i> <span
+                                            class="hidden-mobile hidden-tablet">Détails de la mission</span> </a> </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                            <div id="myTabContent" class="tab-content ">
+                                <div class="tab-pane fade active in padding-10 no-padding-bottom bordered" id="s1">
+                                    <div class="row">
+                                        <div class="col-lg-6 container-info-list">
+                                            <h5 class="title-info-list">INFOS SOUSCRIPTEUR</h5>
+                                            <ng-container *ngIf="mission">
+                                                <ul class="info-list">
+                                                    <li><span>NOM & PRENOM: </span> {{mission.FirstName}}
+                                                        {{mission.LastName}}</li>
+                                                    <li><span>N° TEL1: </span> {{mission.Phone1}} </li>
+                                                    <li><span>N° TEL2: </span> {{mission.Phone2}} </li>
+                                                    <li><span>N° CONTRAT D'ASSISTANCE: </span> {{mission.PolicyNumber}}
+                                                    </li>
+                                                    <li><span>N° DOSSIER D'ASSISTANCE: </span> {{mission.ClaimNumber}}
+                                                    </li>
+                                                    <li><span>DATE D'EFFET: </span> {{mission.DateEffet.substr(0,10)}}
+                                                    </li>
+                                                    <li><span>DATE D'ECHENACE: </span>
+                                                        {{mission.DateEcheance.substr(0,10)}} </li>
+                                                </ul>
+                                            </ng-container>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h5 class="title-info-list">INFOS PRESTATAIRE</h5>
+                                            <ng-container *ngIf="mission">
+                                                <ul class="info-list">
+                                                    <li><span>RAISON SOCIALE: </span> {{mission.ContractorName}}</li>
+                                                    <!--<li>
+                                                        <span>COORDONNEES: </span><input
+                                                                    type="text" name="localisation1"
+                                                                    placeholder="(latitude,longitude)"
+                                                                    [(ngModel)]="localisation" #localisation1="ngModel"
+                                                                    required
+                                                                    pattern="^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?(180(\.0+)?|((1[0-7]\d)|([1-9]?\d))(\.\d+)?)$"
+                                                                    style="height: 30px; line-height: 15px; font-size: 12px; width: 300px;margin-bottom: 5px;"/>
+                                                                    <span
+                                                                    *ngIf="!localisation1.valid && localisation1.touched && localisation1.errors.pattern"
+                                                                    class="help-block txt-color-redLight">Veuillez saisir les coordonnées GPS par exemple 33.589886,-7.603869</span>
+                                                    </li>-->
+                                                    <li> <span>AGENT: </span><label class="select"> <select
+                                                                class="input-sm" [(ngModel)]="selectedUser"
+                                                                style="height: 30px; line-height: 15px; font-size: 12px; width: 200px;">
+                                                                <option *ngFor="let item of users"
+                                                                    value="{{item.UserId}}">{{item.FirstName}}
+                                                                    {{item.LastName}}</option>
+                                                            </select> <i></i> </label> <button type="submit"
+                                                            class="btn btn-primary" (click)="affectMission()"
+                                                            style="margin-left: 20px;"> Affecter </button> </li>
+                                                    
+                                                </ul>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end widget content -->
+                    </div> <!-- end widget div -->
+                </sa-widget>
+            </article>
+        </div>
+    </sa-widgets-grid>
+</div>
